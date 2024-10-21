@@ -1,0 +1,62 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container",
+    "height": 450,
+    "data": {"url": "data/agricultural_land_irrigation.csv"},
+    "transform": [
+      {
+        "calculate": "toNumber(datum.Year)", 
+        "as": "Year"
+      },
+      {
+        "calculate": "datum['Agricultural irrigated land (% of total agricultural land)']",
+        "as": "IrrigatedLand"
+      }
+    ],
+    "encoding": {
+      "x": {
+        "field": "Year",
+        "type": "quantitative",
+        "title": "Year",
+        "scale": {
+          "domain": [1990, 2018]  
+        }
+      },
+      "y": {
+        "field": "Country",
+        "type": "nominal",
+        "title": "Country",
+        "sort": {"op": "max", "field": "IrrigatedLand"},
+        "axis": {"offset": 5, "ticks": false, "minExtent": 70, "domain": false}
+      }
+    },
+    "layer": [
+      {
+        "mark": {"type": "line", "size": 10},
+        "encoding": {
+          "detail": {"field": "Country", "type": "nominal"},
+          "color": {"value": "#eaeaea"}
+        }
+      },
+      {
+        "mark": {"type": "point", "filled": true},
+        "encoding": {
+          "color": {
+            "field": "Year",
+            "type": "ordinal",
+            "scale": {"domain": [1990, 2018], "range": ["#f6d962", "#e9934c"]},
+            "title": "Year"
+          },
+          "size": {"value": 100},
+          "opacity": {"value": 1},
+          "stroke": {"value": "#2947ce"},
+          "strokeWidth": {"value": 1.5},
+          "tooltip": [
+            {"field": "Country", "type": "nominal", "title": "Location"},
+            {"field": "IrrigatedLand", "title": "Agricultural irrigated land (% of total agricultural land)"}
+          ]
+        }
+      }
+    ]
+  }
+  
